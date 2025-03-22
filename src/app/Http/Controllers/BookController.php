@@ -34,7 +34,7 @@ class BookController extends Controller
             'author' => 'required|string|max:255'
         ]);
 
-        $book = $request->Book()->create(book->all());
+        $book = $request->Book()->create($request->all());
         return new Book($book);
     }
 
@@ -66,6 +66,10 @@ class BookController extends Controller
             'title' =>  'required|string|max:225',
             'author' =>  'required|string|max:225',
         ]);
+
+        $book->update($validated);
+
+        return new Book($book);
     }
 
     /**
