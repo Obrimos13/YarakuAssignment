@@ -46,9 +46,15 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Book $book)
     {
-        //
+        $this->authorize('update', $book);
+
+        $validated = $request->validate([
+        'id' => 'required|integer',
+            'title' =>  'required|string|max:225',
+            'author' =>  'required|string|max:225',
+        ]);
     }
 
     /**
