@@ -15,7 +15,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::all():
+        $books = Book::all();
         return response()->json($books);
         //
     }
@@ -34,7 +34,7 @@ class BookController extends Controller
             'author' => 'required|string|max:255'
         ]);
 
-        $task = $request->Book()->create(book->all());
+        $book = $request->Book()->create(book->all());
         return new Book($book);
     }
 
@@ -44,7 +44,7 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Book, $book)
+    public function show(Book $book)
     {
         //
         return response()->json($book);
