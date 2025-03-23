@@ -13,10 +13,4 @@ use Illuminate\Http\Request;
 |
 */
 
-//Gets all Books
-Route::get('Books', [BookController::class, 'index']);
-//Puts new book
-Route::post('Books', [BookController::class, 'store']);
-
-Route::put('Books/{id}', [BookController::class, 'update']);
-Route::delete('Books/{id}', [BookController::class, 'destroy']);
+Route::apiResource('books', BookController::class);
