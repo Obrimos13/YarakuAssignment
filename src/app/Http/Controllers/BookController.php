@@ -4,6 +4,7 @@ namespace App\Http\Controllers\app\Http;
 
 use App\Book;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BookResource;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -35,7 +36,7 @@ class BookController extends Controller
         ]);
 
         $book = $request->Book()->create($request->all());
-        return new Book($book);
+        return new BookResource($book);
     }
 
     /**
@@ -69,7 +70,7 @@ class BookController extends Controller
 
         $book->update($validated);
 
-        return new Book($book);
+        return new BookResource($book);
     }
 
     /**
