@@ -6,7 +6,11 @@ namespace App\Http\Controllers;
 use App\Book;
 use App\Http\Controllers\Controller;
 use  App\Http\Resources\BookResource;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Http\Requests\BookStoreRequest;
+use App\Http\Requests\BookUpdateRequest;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
@@ -15,14 +19,14 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index()  : Response
     {
         $books = Book::all();
 
         return view('books.index', compact('books'));
     }
 
-    public function store(Request $request)
+    public function store(BookStoreRequest $request)  : RedirectResponse
     {
         $request->validate([
             'title' => 'required|max:255',
@@ -39,7 +43,7 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BookStoreRequest $request, $id) : RedirectResponse
     {
         $request->validate([
             'title' => 'required|max:255',
@@ -56,7 +60,7 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id) : RedirectResponse
     {
         $book = Book::find($id);
         $book->delete();
@@ -69,7 +73,7 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create() : Response
     {
         return view('books.create');
     }
@@ -79,7 +83,7 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id) : Response
     {
         $book = Book::find($id);
         return view('books.show', compact('book'));
@@ -90,7 +94,7 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id) : Response
     {
         $book = Book::find($id);
         return view('books.edit', compact('book'));
