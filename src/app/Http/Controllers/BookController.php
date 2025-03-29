@@ -7,19 +7,18 @@ use App\Book;
 use App\Http\Controllers\Controller;
 use  App\Http\Resources\BookResource;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
-use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View;
      */
-    public function index()  : Response
+    public function index()  : View
     {
         $books = Book::all();
 
@@ -39,11 +38,11 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  BookUpdateRequest $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return  RedirectResponse
      */
-    public function update(BookStoreRequest $request, $id) : RedirectResponse
+    public function update(BookUpdateRequest $request, $id) : RedirectResponse
     {
         $request->validate([
             'title' => 'required|max:255',
@@ -58,7 +57,7 @@ class BookController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function destroy($id) : RedirectResponse
     {
@@ -71,9 +70,9 @@ class BookController extends Controller
     /**
      * Show the form for creating a new post.
      *
-     * @return \Illuminate\Http\Response
+     * @return  View
      */
-    public function create() : Response
+    public function create() : View
     {
         return view('books.create');
     }
@@ -81,9 +80,9 @@ class BookController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function show($id) : Response
+    public function show($id) : View
     {
         $book = Book::find($id);
         return view('books.show', compact('book'));
@@ -92,9 +91,9 @@ class BookController extends Controller
      * Show the form for editing the specified post.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function edit($id) : Response
+    public function edit($id) : View
     {
         $book = Book::find($id);
         return view('books.edit', compact('book'));
