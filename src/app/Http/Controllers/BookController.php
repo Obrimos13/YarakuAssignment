@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\app\Http;
+namespace App\Http\Controllers;
+
 
 use App\Book;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\BookResource;
+use  App\Http\Resources\BookResource;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -17,40 +18,20 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::all();
-        return response()->json($books);
-        //
+
+        return view('books.index', compact('books'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
-            'id' => 'required|integer',
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255'
+            'title' => 'required|max:255',
+            'body' => 'required',
         ]);
-
-        $book = $request->Book()->create($request->all());
-        return new BookResource($book);
+        Book::create($request->all());
+        return redirect()->route('books.index')
+            ->with('success', 'Book created successfully.');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Book $book)
-    {
-        //
-        return response()->json($book);
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -58,30 +39,61 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request, $id)
     {
-        $this->authorize('update', $book);
-
-        $validated = $request->validate([
-        'id' => 'required|integer',
-            'title' =>  'required|string|max:225',
-            'author' =>  'required|string|max:225',
+        $request->validate([
+            'title' => 'required|max:255',
+            'author' => 'required|max:255',
         ]);
-
-        $book->update($validated);
-
-        return new BookResource($book);
+        $book = Book::find($id);
+        $book->update($request->all());
+        return redirect()->route('books.index')
+            ->with('success', 'Book updated successfully.');
     }
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function destroy($id)
     {
+        $book = Book::find($id);
         $book->delete();
-        return response()->json(null, 204);
+        return redirect()->route('books.index')
+            ->with('success', 'Book deleted successfully');
     }
+    // routes functions
+    /**
+     * Show the form for creating a new post.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('books.create');
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $book = Book::find($id);
+        return view('books.show', compact('book'));
+    }
+    /**
+     * Show the form for editing the specified post.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $book = Book::find($id);
+        return view('books.edit', compact('book'));
+    }
+
 }
