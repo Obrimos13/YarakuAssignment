@@ -10,8 +10,22 @@
                 <div class="alert alert-success" role="alert">{{ session('success') }}</div>
             @endif
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <div class="d-grid gap-2 d-md-flex >
+                <div  class="d-grid gap-2 d-md-flex justify-content-md-left">
+                <input
+                    type="text"
+                    Title="search"
+                    value=""
+                    class="form-control @error('search') is-invalid @enderror"
+                    id="search"
+                    placeholder="Search">
+                <a class="btn btn-success btn-sm" href="{{ route('books.index') }}"><i class="fa"></i>Search by Title</a>
+                <a class="btn btn-success btn-sm" href="{{ route('books.index') }}"><i class="fa"></i>Search by Author</a>
+                </div>
+        <br>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <a class="btn btn-success btn-sm" href="{{ route('books.create') }}"><i class="fa fa-plus"></i> Create New Book</a>
+                         </div>
             </div>
 
             <table class="table table-bordered table-striped mt-4">
