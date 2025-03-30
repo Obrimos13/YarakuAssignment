@@ -1,4 +1,4 @@
-@extends('notes.layout')
+@extends('books.layout')
 
 @section('content')
 
@@ -19,7 +19,7 @@
                     <input
                         type="text"
                         Title="Title"
-                        value="{{ $book->title }}"
+                        value="{{ $book->title??null }}"
                         class="form-control @error('Title') is-invalid @enderror"
                         id="inputTitle"
                         placeholder="Title">
@@ -29,14 +29,15 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="inputcontent" class="form-label"><strong>author:</strong></label>
-                    <textarea
-                        class="form-control @error('author') is-invalid @enderror"
-                        style="height:150px"
-                        Title="author"
-                        id="inputauthor"
-                        placeholder="content">{{ $book->author }}</textarea>
-                    @error('content')
+                    <label for="inputAuthor" class="form-label"><strong>Author:</strong></label>
+                    <input
+                        type="text"
+                        Title="Author"
+                        value="{{ $book->author??null }}"
+                        class="form-control @error('Author') is-invalid @enderror"
+                        id="inputAuthor"
+                        placeholder="Author">
+                    @error('Author')
                     <div class="form-text text-danger">{{ $message }}</div>
                     @enderror
                 </div>
