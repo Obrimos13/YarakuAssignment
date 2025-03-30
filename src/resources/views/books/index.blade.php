@@ -17,9 +17,9 @@
             <table class="table table-bordered table-striped mt-4">
                 <thead>
                 <tr>
-                    <th width="80px">No</th>
+                    <th width="80px">Id</th>
                     <th>Title</th>
-                    <th>content</th>
+                    <th>Author</th>
                     <th width="250px">Action</th>
                 </tr>
                 </thead>
@@ -27,13 +27,13 @@
                 <tbody>
                 @forelse ($books as $book)
                     <tr>
-                        <td>{{ ++$i }}</td>
+                        <td>{{ $book->id}}</td>
                         <td>{{ $book->title }}</td>
                         <td>{{ $book->author }}</td>
                         <td>
                             <form action="{{ route('books.destroy',$book->id) }}" method="POST">
-                                <a class="btn btn-info btn-sm" href="{{ route('books.show',$book>id) }}"><i class="fa-solid fa-list"></i> Show</a>
-                                <a class="btn btn-primary btn-sm" href="{{ route('books.update',$book>id) }}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                               <!-- <a class="btn btn-info btn-sm" href="{{ route('books.show',$book->id) }}"><i class="fa-solid fa-list"></i> Show</a> -->
+                                <a class="btn btn-primary btn-sm" href="{{ route('books.update',$book->id) }}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i> Delete</button>
@@ -47,8 +47,6 @@
                 @endforelse
                 </tbody>
             </table>
-
-            {!! $books->links() !!}
 
         </div>
     </div>
