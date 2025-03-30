@@ -2,6 +2,7 @@
 
 @section('content')
 
+
     <div class="card mt-5">
         <h2 class="card-header">Book List</h2>
         <div class="card-body">
@@ -19,13 +20,13 @@
                     class="form-control @error('search') is-invalid @enderror"
                     id="search"
                     placeholder="Search">
-                <a class="btn btn-success btn-sm" href="{{ route('books.index') }}"><i class="fa"></i>Search by Title</a>
-                <a class="btn btn-success btn-sm" href="{{ route('books.index') }}"><i class="fa"></i>Search by Author</a>
+                <a class="btn btn-success btn-sm" href="{{ route('books.index', True) }}"><i class="fa"></i>Search by Title</a>
+                <a class="btn btn-success btn-sm" href="{{ route('books.index', True) }}"><i class="fa"></i>Search by Author</a>
                 </div>
         <br>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <a class="btn btn-success btn-sm" href="{{ route('books.create') }}"><i class="fa fa-plus"></i> Create New Book</a>
-                    <a class="btn btn-success btn-sm" href="{{ route('books.index') }}"><i class="fa fa-arrow-right"></i>Export</a>
+                    <a class="btn btn-success btn-sm" href="{{ route('books.index', True) }}"><i class="fa fa-arrow-right"></i>Export</a>
                          </div>
             </div>
 
@@ -59,6 +60,7 @@
                 @endforelse
                 </tbody>
             </table>
+    {{ $books->links() }}
 
         </div>
     </div>
