@@ -19,7 +19,7 @@
                         type="text"
                         name="title"
                         class="form-control @error('title') is-invalid @enderror"
-                        id="inputName"
+                        id="title"
                         placeholder="Title">
                     @error('name')
                     <div class="form-text text-danger">{{ $message }}</div>
@@ -27,14 +27,14 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="inputcontent" class="form-label"><strong>author:</strong></label>
-                    <textarea
-                        class="form-control @error('author') is-invalid @enderror"
-                        style="height:150px"
+                    <label for="inputName" class="form-label"><strong>Author:</strong></label>
+                    <input
+                        type="text"
                         name="author"
-                        id="inputauthor"
-                        placeholder="author"></textarea>
-                    @error('content')
+                        class="form-control @error('title') is-invalid @enderror"
+                        id="author"
+                        placeholder="Author">
+                    @error('name')
                     <div class="form-text text-danger">{{ $message }}</div>
                     @enderror
                 </div>
