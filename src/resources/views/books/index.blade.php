@@ -32,8 +32,7 @@
                         <td>{{ $book->author }}</td>
                         <td>
                             <form action="{{ route('books.destroy',$book->id) }}" method="POST">
-                               <!-- <a class="btn btn-info btn-sm" href="{{ route('books.show',$book->id) }}"><i class="fa-solid fa-list"></i> Show</a> -->
-                                <a class="btn btn-primary btn-sm" href="{{ route('books.update',$book->id) }}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                                <a class="btn btn-primary btn-sm" href="{{ route('books.edit', $book->id) }}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i> Delete</button>
