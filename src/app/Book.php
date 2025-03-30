@@ -7,9 +7,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Book extends Model
 {
-    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +17,7 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'title', 'author',
+         'title', 'author',
     ];
 
     /**
@@ -28,5 +28,22 @@ class Book extends Model
     protected $hidden = [
 
     ];
+
+    protected $table = 'books';
+
+    /**
+     * Indicates if the model should be timestamped.
+     * @var bool
+     */
+    public $timestamps = false;
+
+    public static function create(array $attributes = [])
+    {
+        $model = static::query()->create($attributes);
+
+        // ...
+
+        return $model;
+    }
 
 }
