@@ -38,13 +38,10 @@ class BookController extends Controller
      * @param  int  $id
      * @return  RedirectResponse
      */
-    public function update(BookUpdateRequest $request, $id) : RedirectResponse
+    public function update(BookUpdateRequest $request, int $id) : RedirectResponse
     {
-        $request->validate([
-            'title' => 'required|max:255',
-            'author' => 'required|max:255',
-        ]);
-        $book = Book::find($id);
+        $request->validate($request->rules());
+        $book = Book::query()->find($id);
         $book->update($request->all());
         return redirect()->route('books.index')
             ->with('success', 'Book updated successfully.');
