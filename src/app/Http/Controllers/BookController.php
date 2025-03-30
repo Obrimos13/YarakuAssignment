@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class BookController extends Controller
@@ -17,11 +18,15 @@ class BookController extends Controller
      *
      * @return View;
      */
-    public function index()  : View
+    public function index(bool $sortByTitle = true)  : View
     {
-        $books = Book::all();
+        if ($sortByTitle) {
+            $books= DB::table('books')->orderBy('title')->simplePaginate(15);
+        } else {
+        $books= DB::table('books')->orderBy('author')->simplePaginate(15);
+        }
 
-        return view('books.index', compact('books'));
+        return view('books.index',compact('books'));
     }
 
     public function store(BookStoreRequest $request)  : RedirectResponse
