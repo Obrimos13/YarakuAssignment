@@ -25,13 +25,13 @@
         <br>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <a class="btn btn-success btn-sm" href="{{ route('books.create') }}"><i class="fa fa-plus"></i> Create New Book</a>
+                    <a class="btn btn-success btn-sm" href="{{ route('books.index') }}"><i class="fa fa-arrow-right"></i>Export</a>
                          </div>
             </div>
 
             <table class="table table-bordered table-striped mt-4">
                 <thead>
                 <tr>
-                    <th width="80px">Id</th>
                     <th>Title</th>
                     <th>Author</th>
                     <th width="250px">Action</th>
@@ -41,7 +41,6 @@
                 <tbody>
                 @forelse ($books as $book)
                     <tr>
-                        <td>{{ $book->id}}</td>
                         <td>{{ $book->title }}</td>
                         <td>{{ $book->author }}</td>
                         <td>
