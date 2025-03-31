@@ -11,30 +11,34 @@
                 <div class="alert alert-success" role="alert">{{ session('success') }}</div>
             @endif
 
-            <div class="d-grid gap-2 d-md-flex >
+
                 <div  class="d-grid gap-2 d-md-flex justify-content-md-left">
-                <input
-                    type="text"
-                    Title="search"
-                    value=""
-                    class="form-control @error('search') is-invalid @enderror"
-                    id="search"
-                    placeholder="Search">
-                <a class="btn btn-success btn-sm" href="{{ route('books.index', True) }}"><i class="fa"></i>Search by Title</a>
-                <a class="btn btn-success btn-sm" href="{{ route('books.index', True) }}"><i class="fa"></i>Search by Author</a>
+                    <form action="{{ route('books.search') }}" method="GET">
+                        @csrf
+                        @method('GET')
+                        <input type="text" name="search" placeholder="Search Books">
+                        <button type="submit" formaction="{{ route('books.search', 'title') }}" class="btn btn-success btn-sm"><i class="fa fa-search"></i> Search by Title</button>
+                        <button type="submit" formaction="{{ route('books.search', "author") }}"  class="btn btn-success btn-sm"><i class="fa fa-search"></i> Search by Author</button>
+                    </form>
+
                 </div>
         <br>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <a class="btn btn-success btn-sm" href="{{ route('books.create') }}"><i class="fa fa-plus"></i> Create New Book</a>
-                    <a class="btn btn-success btn-sm" href="{{ route('books.index', True) }}"><i class="fa fa-arrow-right"></i>Export</a>
+                    <a class="btn btn-success btn-sm" href="{{ route('books.index') }}"><i class="fa fa-arrow-right"></i>Export</a>
                          </div>
             </div>
 
             <table class="table table-bordered table-striped mt-4">
                 <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Author</th>
+                    <th>Title
+                            <a class="btn btn-success btn-sm" href="{{ route('books.index', true) }}">Sort<i class="fa fa-sort"></i></a>
+                    </th>
+                    <th>Author
+                        <a class="btn btn-success btn-sm" href="{{ route('books.index', false) }}">Sort<i class="fa fa-sort"></i></a>
+
+                    </th>
                     <th width="250px">Action</th>
                 </tr>
                 </thead>
@@ -63,6 +67,6 @@
     {{ $books->links() }}
 
         </div>
-    </div>
+
 
 @endsection
