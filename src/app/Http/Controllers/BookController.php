@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -18,15 +19,24 @@ class BookController extends Controller
      *
      * @return View;
      */
-    public function index(bool $sortByTitle = true)  : View
+    public function index($sortByTitle = true)  : View
     {
-        if ($sortByTitle) {
-            $books= DB::table('books')->orderBy('title')->simplePaginate(15);
-        } else {
-        $books= DB::table('books')->orderBy('author')->simplePaginate(15);
-        }
-
+       $books = DB::table('books')->orderBy('id', 'asc')->simplePaginate(10);
         return view('books.index',compact('books'));
+    }
+
+
+    /**
+     * Display the results of a search
+     * @param Request $request
+     * @param string $column
+     * @return View;
+     */
+    public function search(Request $request, string $column): View
+    {
+        $search = $request->input('search');
+        $books = DB::table('books')->where("{$column}", 'like', "%{$search}%")->simplePaginate(10);
+        return view('books.index', compact('books'));
     }
 
     public function store(BookStoreRequest $request)  : RedirectResponse
@@ -34,7 +44,7 @@ class BookController extends Controller
         $request->validate($request->rules());
 
         $book = Book::create($request->all());
-        return redirect()->route('books.index')
+        return redirect()->route('books.index', true)
             ->with('success', 'Book created successfully.');    }
     /**
      * Update the specified resource in storage.
@@ -46,7 +56,7 @@ class BookController extends Controller
     public function update(BookUpdateRequest $request, $id) : RedirectResponse
     {
         $request->validate($request->rules());
-        $book = Book::find($id);
+        $book = Book::query()->find($id);
         $book->update($request->all());
         return redirect()->route('books.index')
             ->with('success', 'Book updated successfully.');
@@ -61,7 +71,7 @@ class BookController extends Controller
     {
         $book = Book::find($id);
         $book->delete();
-        return redirect()->route('books.index')
+        return redirect()->route('books.index', true)
             ->with('success', 'Book deleted successfully');
     }
     // routes functions
