@@ -28,3 +28,6 @@ Route::put('/books/{book}', BookController::class .'@update')->name('books.updat
 Route::delete('/books/{book}', BookController::class .'@destroy')->name('books.destroy');
 
 Route::get('books/search/{column}', BookController::class .'@search')->name('books.search');
+
+Route::get('books/export', BookController::class .'@export')->name('books.export');
+

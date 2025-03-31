@@ -14,14 +14,16 @@ use Illuminate\View\View;
 
 class BookController extends Controller
 {
+
+    private $sortKey = 'id';
     /**
      * Display a listing of the resource.
      *
      * @return View;
      */
-    public function index($sortByTitle = true)  : View
+    public function index($sortKey = true)  : View
     {
-       $books = DB::table('books')->orderBy('id', 'asc')->simplePaginate(10);
+       $books = DB::table('books')->orderBy("{$sortKey}", 'asc')->simplePaginate(10);
         return view('books.index',compact('books'));
     }
 
@@ -45,7 +47,8 @@ class BookController extends Controller
 
         $book = Book::create($request->all());
         return redirect()->route('books.index', true)
-            ->with('success', 'Book created successfully.');    }
+            ->with('success', 'Book created successfully.');
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -84,17 +87,7 @@ class BookController extends Controller
     {
         return view('books.create');
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return View
-     */
-    public function show($id) : View
-    {
-        $book = Book::find($id);
-        return view('books.show', compact('book'));
-    }
+
     /**
      * Show the form for editing the specified post.
      *
@@ -105,6 +98,10 @@ class BookController extends Controller
     {
         $book = Book::find($id);
         return view('books.edit', compact('book'));
+    }
+
+    public function export() : View {
+        return view('books.export');
     }
 
 }
