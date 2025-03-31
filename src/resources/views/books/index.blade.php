@@ -13,12 +13,12 @@
 
 
                 <div  class="d-grid gap-2 d-md-flex justify-content-md-left">
-                    <form action="{{ route('books.search') }}" method="GET">
+                    <form action="{{ route('books.search', 'title') }}" method="GET">
                         @csrf
                         @method('GET')
                         <input type="text" name="search" placeholder="Search Books">
                         <button type="submit" formaction="{{ route('books.search', 'title') }}" class="btn btn-success btn-sm"><i class="fa fa-search"></i> Search by Title</button>
-                        <button type="submit" formaction="{{ route('books.search', "author") }}"  class="btn btn-success btn-sm"><i class="fa fa-search"></i> Search by Author</button>
+                        <button type="submit" formaction="{{ route('books.search', 'author') }}"  class="btn btn-success btn-sm"><i class="fa fa-search"></i> Search by Author</button>
                     </form>
 
                 </div>

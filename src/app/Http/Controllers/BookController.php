@@ -32,7 +32,7 @@ class BookController extends Controller
      * @param string $column
      * @return View;
      */
-    public function search(Request $request, string $column): View
+    public function search(Request $request, string $column='title'): View
     {
         $search = $request->input('search');
         $books = DB::table('books')->where("{$column}", 'like', "%{$search}%")->simplePaginate(10);
