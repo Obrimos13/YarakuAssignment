@@ -1,31 +1,19 @@
-## Requirements
-- [Docker](https://docs.docker.com/install)
-- [Docker Compose](https://docs.docker.com/compose/install)
+All Functions outlined in the assignment instructions have been implemented.
+-----------------------------------------------------------------------------------
+Core Functionality
+  - User can export Add a book to the list.
+  - User can export Delete a book from the list.
+  - User can export Change an authors name
+  - User can export Sort by title or author
+  - User can export Search for a book by title or author
+  - User can export the following in CSV and XML
+    - A list with Title and Author
+    - A list with only Titles
+    - A list with only Authors
+-----------------------------------------------------------------------------------
+Flaws and Possible Improvements
+ 
+-Front End was implemented simply in Blade. In the future it would be better to use React and have book list be a component with Book components arranged under it hiearchically and have update and create instead be components that can be made to appear in response to user actions rather than seperate pages.
+-Test suite not implemented due to time constraints, was planning to use PhPStorm's automatic unit test generation but it is woefully inadequate, would be happy to discuss the tests I had planned to implement.
 
-## Setup
-1. Clone the repository.
-1. Start the containers by running `docker-compose up -d` in the project root.
-1. Install the composer packages by running `docker-compose exec laravel composer install`.
-1. Access the Laravel instance on `http://localhost` (If there is a "Permission denied" error, run `docker-compose exec laravel chown -R www-data storage`).
 
-Note that the changes you make to local files will be automatically reflected in the container. 
-
-## Persistent database
-If you want to make sure that the data in the database persists even if the database container is deleted, add a file named `docker-compose.override.yml` in the project root with the following contents.
-```
-version: "3.7"
-
-services:
-  mysql:
-    volumes:
-    - mysql:/var/lib/mysql
-
-volumes:
-  mysql:
-```
-Then run the following.
-```
-docker-compose stop \
-  && docker-compose rm -f mysql \
-  && docker-compose up -d
-``` 
