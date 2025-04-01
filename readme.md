@@ -14,6 +14,9 @@ Core Functionality
 Flaws and Possible Improvements
  
 -Front End was implemented simply in Blade. In the future it would be better to use React and have book list be a component with Book components arranged under it hiearchically and have update and create instead be components that can be made to appear in response to user actions rather than seperate pages.
+
+
 -Test suite not implemented due to time constraints, was planning to use PhPStorm's automatic unit test generation but it is woefully inadequate, would be happy to discuss the tests I had planned to implement.
 
-
+--------------------------------------------------------------------------------------
+Deployment
