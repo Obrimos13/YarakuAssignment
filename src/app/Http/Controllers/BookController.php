@@ -37,7 +37,6 @@ class BookController extends Controller
         return view('books.index', compact('books'));
     }
 
-
     /**
      * Display the results of a search
      * @param Request $request
@@ -47,7 +46,8 @@ class BookController extends Controller
     public function search(Request $request, string $column = 'title'): View
     {
         $search = $request->input('search');
-        $books = DB::table('books')->where("{$column}", 'like', "%{$search}%")->simplePaginate(10);
+        $orderKey = $request->input('sortBy');
+        $books = DB::table('books')->where("{$column}", 'like', "%{$search}%")->orderBy($orderKey)->simplePaginate(10);
         return view('books.index', compact('books'));
     }
 
