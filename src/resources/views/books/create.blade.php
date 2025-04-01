@@ -12,6 +12,7 @@
 
             <form action="{{ route('books.store') }}" method="POST">
                 @csrf
+                @method('POST')
 
                 <div class="mb-3">
                     <label for="inputName" class="form-label"><strong>Title:</strong></label>
@@ -21,7 +22,7 @@
                         class="form-control @error('title') is-invalid @enderror"
                         id="title"
                         placeholder="Title">
-                    @error('name')
+                    @error('title')
                     <div class="form-text text-danger">{{ $message }}</div>
                     @enderror
                 </div>
@@ -34,7 +35,7 @@
                         class="form-control @error('title') is-invalid @enderror"
                         id="author"
                         placeholder="Author">
-                    @error('name')
+                    @error('author')
                     <div class="form-text text-danger">{{ $message }}</div>
                     @enderror
                 </div>
