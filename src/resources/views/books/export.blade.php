@@ -14,7 +14,9 @@
                     <a class="btn btn-primary btn-sm" href="{{ route('books.index') }}"><i class="fa fa-arrow-left"></i> Back</a>
                     </div>
                     <div>
-                    <form action="{{ route('books.download') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('books.download') }}" method="GET" enctype="multipart/form-data">
+                        @csrf
+                        @method('GET')
                         <input type="checkbox" id="title" name="title" value="title" checked>
                         <label for="title">Include Title</label><br>
                         <input type="checkbox" id="author" name="author" value="author">
@@ -24,7 +26,8 @@
                             <option value="csv">csv</option>
                             <option value="xml">xml</option>
                         </select>
-                        <input type="submit" value="Submit">
+                        <button type="submit"  class="btn btn-success btn-sm"><i class="fa fa-search"></i> Download </button>
+
                     </form>
                 </div>
                 </div>
