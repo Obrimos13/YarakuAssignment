@@ -25,7 +25,7 @@ class BookController extends Controller
      */
     public function index($sortKey = true)  : View
     {
-       $books = DB::table('books')->orderBy("{$sortKey}", 'asc')->simplePaginate(10);
+       $books = DB::table('books')->orderBy('id', 'asc')->simplePaginate(10);
         return view('books.index',compact('books'));
     }
 
@@ -110,25 +110,37 @@ class BookController extends Controller
         return view('books.export');
     }
 
-    public function download(Request $request) : \Symfony\Component\HttpFoundation\BinaryFileResponse
+    public function download(Request $request)
     {
-        $books = DB::table('books')->get();
 
-        // Write data to CSV
-        $csvFileName = 'books.csv';
-        $csvFile = fopen($csvFileName, 'w');
-        $headers = array_keys((array) $books[0]); // Get the column headers from the first row
-        fputcsv($csvFile, $headers);
 
-        foreach ($books as $row) {
-            fputcsv($csvFile, (array) $row);
+               $columns = array_filter(array(request()->input('title'), request()->input('author')), function ($value) {
+            return !empty($value);
+        });
+        if (empty($columns)) {
+            return redirect()->route('books.export')->with('error', 'Please select at least one column to export');
         }
+        $books = DB::table('books')->select($columns)->get();
 
-        fclose($csvFile);
+
+        if(request()->input('filetype') == 'csv') {
+            // Write data to CSV
+            $csvFileName = 'books.csv';
+            $csvFile = fopen($csvFileName, 'w');
+            $headers = array_keys((array) $books[0]);
+            fputcsv($csvFile, $headers);
+
+            foreach ($books as $row) {
+                fputcsv($csvFile, (array)$row);
+            }
+
+            fclose($csvFile);
 
 // Download the CSV file
-        return \Illuminate\Support\Facades\Response::download($csvFileName, 'exported_book_list.csv', $headers);
+            return \Illuminate\Support\Facades\Response::download($csvFileName, 'exported_book_list.csv', $headers);
+        }
 
+        return view('books.export');
     }
 
-}
+    }
