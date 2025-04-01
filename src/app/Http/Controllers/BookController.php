@@ -16,19 +16,24 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
+/**
+ * Class BookController
+ *
+ * This controller manages the CRUD operations and utility methods for the Book resource,
+ * including functionality to display, create, edit, update, delete, search, and export books.
+ */
 class BookController extends Controller
 {
 
-    private $sortKey = 'id';
 
     /**
      * Display a listing of the resource.
      *
      * @return View;
      */
-    public function index($sortKey = true): View
+    public function index($sortKey = 'title'): View
     {
-        $books = DB::table('books')->orderBy('id', 'asc')->simplePaginate(10);
+        $books = DB::table('books')->orderBy($sortKey, 'asc')->simplePaginate(10);
         return view('books.index', compact('books'));
     }
 
@@ -62,10 +67,10 @@ class BookController extends Controller
      * @param int $id
      * @return  RedirectResponse
      */
-    public function update(BookUpdateRequest $request, $id): RedirectResponse
+    public function update(BookUpdateRequest $request, int $id): RedirectResponse
     {
-        $request->validate($request->rules());
-        $book = Book::query()->find($id);
+       $request->validate($request->rules());
+        $book = Book::find($id);
         $book->update($request->all());
         return redirect()->route('books.index')
             ->with('success', 'Book updated successfully.');
@@ -79,6 +84,7 @@ class BookController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
+
         $book = Book::find($id);
         $book->delete();
         return redirect()->route('books.index', true)
@@ -117,6 +123,11 @@ class BookController extends Controller
         return view('books.export');
     }
 
+
+    /**queires the books table with the selected columns and exports it to a file download
+     * @param Request $request
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function download(Request $request)
     {
         request()->session()->flush();
@@ -142,7 +153,9 @@ class BookController extends Controller
         }
     }
 
-    /**
+    /**Writes the books data to an xml file and downloads it
+     * @param $books
+     * @param $columns
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function writeDataToXML($books, $columns): \Symfony\Component\HttpFoundation\BinaryFileResponse
@@ -172,7 +185,7 @@ class BookController extends Controller
         return \Illuminate\Support\Facades\Response::download($xmlFileName, 'exported_book_list.xml', ['Content-Type' => 'application/xml']);
     }
 
-    /**
+    /** writes the books to a csv file and downloads
      * @param \Illuminate\Support\Collection $books
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
