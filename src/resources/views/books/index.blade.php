@@ -17,10 +17,18 @@
                         @csrf
                         @method('GET')
                         <input type="text" name="search" placeholder="Search Books">
+                        <label for="orderKeySelection">Sort By:</label>
+                        <select name="sortBy" id='orderKeySelection' class="form-select" onchange="this.form.submit()" >
+                            <option value="title" selected>Title</option>
+                            <option value="author">Author</option>
+                        </select>
+                        <br>
                         <button type="submit" formaction="{{ route('books.search', 'title') }}" class="btn btn-success btn-sm"><i class="fa fa-search"></i> Search by Title</button>
                         <button type="submit" formaction="{{ route('books.search', 'author') }}"  class="btn btn-success btn-sm"><i class="fa fa-search"></i> Search by Author</button>
                     </form>
-
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a class="btn btn-primary btn-sm" href="{{ route('books.index') }}"><i class="fa fa-eraser"></i> Clear Search</a>
+                    </div>
                 </div>
         <br>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -32,19 +40,11 @@
             <table class="table table-bordered table-striped mt-4">
                 <thead>
                 <tr>
-                    <th>Title
-                            <a class="btn btn-success btn-sm" href="{{ route('books.index', true) }}">Sort<i class="fa fa-sort"></i></a>
-                    </th>
-                    <th>Author
-                        <a class="btn btn-success btn-sm" href="{{ route('books.index', false) }}">Sort<i class="fa fa-sort"></i></a>
-
-                    </th>
-                    <th width="250px">Action</th>
-                </tr>
+                                 </tr>
                 </thead>
 
                 <tbody>
-                @forelse ($books as $book)
+                    @forelse ($books as $book)
                     <tr>
                         <td>{{ $book->title }}</td>
                         <td>{{ $book->author }}</td>
@@ -67,6 +67,5 @@
     {{ $books->links() }}
 
         </div>
-
 
 @endsection
