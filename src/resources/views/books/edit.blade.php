@@ -10,37 +10,38 @@
                 <a class="btn btn-primary btn-sm" href="{{ route('books.index') }}"><i class="fa fa-arrow-left"></i> Back</a>
             </div>
 
-            <form action="{{ route('books.update',$book->id) }}" method="POST">
+            <form action="{{ route('books.update',$book->id) }}" method="post">
                 @csrf
                 @method('PUT')
 
                 <div class="mb-3">
-                    <label for="inputTitle" class="form-label"><strong>Title:</strong></label>
+                    <label for="inputName" class="form-label"><strong>Title:</strong></label>
                     <input
                         type="text"
-                        Title="Title"
-                        value="{{ $book->title??null }}"
-                        class="form-control @error('Title') is-invalid @enderror"
-                        id="inputTitle"
+                        name="title"
+                        class="form-control @error('title') is-invalid @enderror"
+                        id="title"
+                        value="{{ $book->title }}"
                         placeholder="Title">
-                    @error('Title')
+                    @error('title')
                     <div class="form-text text-danger">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="mb-3">
-                    <label for="inputAuthor" class="form-label"><strong>Author:</strong></label>
+                    <label for="inputName" class="form-label"><strong>Author:</strong></label>
                     <input
                         type="text"
-                        Title="Author"
-                        value="{{ $book->author??null }}"
-                        class="form-control @error('Author') is-invalid @enderror"
-                        id="inputAuthor"
+                        name="author"
+                        class="form-control @error('title') is-invalid @enderror"
+                        id="author"
+                        value="{{ $book->author }}"
                         placeholder="Author">
-                    @error('Author')
+                    @error('author')
                     <div class="form-text text-danger">{{ $message }}</div>
                     @enderror
                 </div>
+
                 <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Update</button>
             </form>
 
