@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Http\Controllers\Controller;
+use Exception;
 use http\Client\Response;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\RedirectResponse;
@@ -12,6 +13,7 @@ use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class BookController extends Controller
@@ -117,7 +119,7 @@ class BookController extends Controller
 
     public function download(Request $request)
     {
-
+        request()->session()->flush();
 
         $columns = array_filter(array(request()->input('title'), request()->input('author')), function ($value) {
             return !empty($value);
@@ -126,16 +128,18 @@ class BookController extends Controller
             return redirect()->route('books.export')->with('error', 'Please select at least one column to export');
         }
         $books = DB::table('books')->select($columns)->get();
+        try {
+            if (request()->input('filetype') == 'csv') {
+                // Write data to CSV
+                return BookController::writeDataToCSV($books);
 
-        if (request()->input('filetype') == 'csv') {
-            // Write data to CSV
-            return BookController::writeDataToCSV($books);
-
-        } else {
-            return BookController::writeDataToXML($books, $columns);
-
+            } else {
+                redirect()->route('books.export')->with('success', 'Exported');
+                return BookController::writeDataToXML($books, $columns);
+            }
+        } catch (Exception $error) {
+            return redirect()->route('books.export')->with('error', $error);
         }
-
     }
 
     /**
