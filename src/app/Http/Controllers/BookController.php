@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Http\Controllers\Controller;
+use http\Client\Response;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
@@ -70,7 +72,7 @@ class BookController extends Controller
      * @param  int  $id
      * @return RedirectResponse
      */
-    public function destroy($id) : RedirectResponse
+    public function destroy(int $id) : RedirectResponse
     {
         $book = Book::find($id);
         $book->delete();
@@ -94,14 +96,39 @@ class BookController extends Controller
      * @param  int  $id
      * @return View
      */
-    public function edit($id) : View
+    public function edit(int $id) : View
     {
         $book = Book::find($id);
         return view('books.edit', compact('book'));
     }
 
+    /**
+     * Display the export view.
+     * @return View
+     */
     public function export() : View {
         return view('books.export');
+    }
+
+    public function download(Request $request) : \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        $books = DB::table('books')->get();
+
+        // Write data to CSV
+        $csvFileName = 'books.csv';
+        $csvFile = fopen($csvFileName, 'w');
+        $headers = array_keys((array) $books[0]); // Get the column headers from the first row
+        fputcsv($csvFile, $headers);
+
+        foreach ($books as $row) {
+            fputcsv($csvFile, (array) $row);
+        }
+
+        fclose($csvFile);
+
+// Download the CSV file
+        return \Illuminate\Support\Facades\Response::download($csvFileName, 'exported_book_list.csv', $headers);
+
     }
 
 }

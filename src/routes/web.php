@@ -15,6 +15,8 @@
 // returns the home page with all posts
 
 
+
+
 Route::get('/', BookController::class .'@index')->name('books.index');
 // returns the form for adding a post
 Route::get('/books/create', BookController::class . '@create')->name('books.create');
@@ -31,3 +33,4 @@ Route::get('books/search/{column}', BookController::class .'@search')->name('boo
 
 Route::get('books/export', BookController::class .'@export')->name('books.export');
 
+Route::get('books/export/download', BookController::class .'@download')->name('books.download');
