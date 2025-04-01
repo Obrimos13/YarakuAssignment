@@ -4,12 +4,16 @@
 
 
     <div class="card mt-5">
+
+        @if(session('success'))
+            <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+        @endif
+        @if(session('error'))
+                <div class="alert alert-error" role="alert">{{ session('error') }}</div>
+            @endif
         <div class="card-body">
 
-            @if(session('success'))
-                <div class="alert alert-success" role="alert">{{ session('success') }}</div>
-            @endif
-                <div class="d-grid gap-2 d-md-flex justify-content-md-left">
+               <div class="d-grid gap-2 d-md-flex justify-content-md-left">
                     <div>
                     <a class="btn btn-primary btn-sm" href="{{ route('books.index') }}"><i class="fa fa-arrow-left"></i> Back</a>
                     </div>
